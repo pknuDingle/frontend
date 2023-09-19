@@ -1,3 +1,4 @@
+import 'package:capstone_dingle/home.dart';
 import 'package:flutter/material.dart';
 import 'mypage.dart';
 
@@ -51,6 +52,7 @@ class _MainPageState extends State<MainPage> {
             _currentIndex = index;
             if (index == 0) {
               _appBarTitle = 'HOME';
+              Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
             } else if (index == 1) {
               _appBarTitle = 'JIIM';
 
