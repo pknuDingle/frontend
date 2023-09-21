@@ -6,6 +6,7 @@ import '../main.dart';
 import '../model/list_model.dart';
 import '../suggestion.dart';
 import '../category.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class HomeWidget extends StatefulWidget{
@@ -55,6 +56,12 @@ class _HomeWidgetState extends State<HomeWidget> {
           shortContent = shortContent.substring(0, 17) + '...'; // 10글자까지만 표시
         }
         return ListTile(
+          onTap: () {
+            // 클릭한 공지사항이 noticelist5인 경우 해당 URL로 이동
+            if (notice == noticelist5) {
+              _launchURL('https://ce.pknu.ac.kr/ce/1814?action=view&no=9942231');
+            }
+          },
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -119,6 +126,14 @@ class _HomeWidgetState extends State<HomeWidget> {
       },
       itemCount: noticeList.length,
     );
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
