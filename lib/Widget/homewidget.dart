@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../list/list_mockdata.dart';
 import '../main.dart';
+import '../model/list_model.dart';
 import '../suggestion.dart';
 import '../category.dart';
 
@@ -17,7 +19,6 @@ class HomeWidget extends StatefulWidget{
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,49 +26,100 @@ class _HomeWidgetState extends State<HomeWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.only(left:20, right:20, top: 10, bottom: 38),
-            child: Text('NOTICE LIST',
-        style: TextStyle(color:Color(0xff9BBDFF), fontSize: 20, fontWeight: FontWeight.bold)),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 38),
+            child: Text(
+              'NOTICE LIST',
+              style: TextStyle(color: Color(0xff9BBDFF), fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           Container(height: 1, color: Color(0xffdedede)),
-         _contentwidget()
+          _contentWidget(NoticeList)
         ],
       ),
     );
-
   }
 
-  Widget _contentwidget(){
+  Widget _contentWidget(List<Notice> noticeList) {
     return ListView.separated(
-      shrinkWrap: true, // shrinkWrap 설정 추가
-      itemBuilder: (BuildContext context, int index){
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        Notice notice = noticeList[index];
+        String shortTitle = notice.title ?? '';
+        String shortContent = notice.content ?? '';
+
+        if (shortTitle.length > 13) {
+          shortTitle = shortTitle.substring(0, 13) + '...'; // 15글자까지만 표시
+        }
+
+        if (shortContent.length > 17) {
+          shortContent = shortContent.substring(0, 17) + '...'; // 10글자까지만 표시
+        }
         return ListTile(
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage('assets/baekgyeong.png'),
-                    fit: BoxFit.cover,
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage(notice.image ?? ''),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        shortTitle,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        shortContent,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Text("Item $index"),
+              IconButton(
+                icon: notice.isFavorite 
+                    ? Icon(Icons.favorite,
+                  color: Color(0xffFF0000).withOpacity(0.45),
+                )
+                    : Icon(Icons.favorite_border,
+                  color: Color(0xffFF0000).withOpacity(0.45),),
+                onPressed: () {
+                  // 아이콘 상태 토글
+                  setState(() {
+                    notice.isFavorite = !notice.isFavorite;
+                  });
+                },
+              ),
             ],
           ),
         );
       },
-      separatorBuilder: (BuildContext context, int index){
+      separatorBuilder: (BuildContext context, int index) {
         return Container(height: 1, color: Color(0xffdedede));
       },
-      itemCount: 10,
+      itemCount: noticeList.length,
     );
   }
-
-
 }
+
 

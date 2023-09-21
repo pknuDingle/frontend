@@ -2,20 +2,24 @@ class Notice {
   int? noticeArticleId;
   String? title;
   String? content;
-  String? image; // 이미지 URL을 담는 필드
+  String? image;
+  bool isFavorite;
 
   Notice({
     this.noticeArticleId,
     this.title,
     this.content,
-    this.image, // 생성자에도 추가
+    this.image,
+    this.isFavorite = false,
   });
 
-  Notice.fromJson(Map<String, dynamic> json) {
-    noticeArticleId = json['noticeArticleId'];
-    title = json['title'];
-    content = json['content'];
-    image = json['imageUrl'];
+  factory Notice.fromJson(Map<String, dynamic> json) {
+    return Notice(
+      noticeArticleId: json['noticeArticleId'],
+      title: json['title'],
+      content: json['content'],
+      image: json['image'],
+    );
   }
 
   Map<String, dynamic> toJson() {
