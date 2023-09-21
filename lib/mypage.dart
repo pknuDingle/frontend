@@ -1,3 +1,4 @@
+import 'package:capstone_dingle/Widget/homewidget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -162,7 +163,7 @@ class _inMyPage extends State<MyPage> {
         currentIndex: 2,
         onTap: (index) {
           if (index == 0) {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => HomeWidget()));
           } else if (index == 1) {
 
           }

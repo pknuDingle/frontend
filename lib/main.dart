@@ -1,5 +1,6 @@
-import 'package:capstone_dingle/home.dart';
+import 'package:capstone_dingle/Widget/homewidget.dart';
 import 'package:flutter/material.dart';
+import 'Widget/jjimwidget.dart';
 import 'mypage.dart';
 
 
@@ -22,17 +23,40 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIndex = 0; //
+  int selectedIndex = 0; //
   String _appBarTitle = 'HOME';
   @override
   Widget build(BuildContext context) {
+
+    List _pageWidget = [
+      HomeWidget(),
+      JJIMWidget(),
+
+
+
+
+    ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appBarTitle),
+        centerTitle: true,
+        backgroundColor: Color(0xff9BBDFF),
+        title: Text(_appBarTitle,
+            style: TextStyle(color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            )
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
+      body: _pageWidget.elementAt(selectedIndex),
 
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: selectedIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -49,10 +73,9 @@ class _MainPageState extends State<MainPage> {
         ],
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
+            selectedIndex = index;
             if (index == 0) {
               _appBarTitle = 'HOME';
-              Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
             } else if (index == 1) {
               _appBarTitle = 'JIIM';
 
