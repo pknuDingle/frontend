@@ -29,14 +29,28 @@ class _WriteSuggestionState extends State<WriteSuggestion> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('건의하기'),
+        backgroundColor: Color(0xFF9BBDFF),
+        title: Text('건의하기',
+          style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.bold),
+        ),
+
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.keyboard_arrow_left),
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => MyPage())); //돌아가기
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.live_help_outlined),
+            onPressed: () {
+
+            },
+          ),
+        ],
+
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -108,10 +122,13 @@ class _WriteSuggestionState extends State<WriteSuggestion> {
             // SizedBox(height: 32.0),
             Align(
               alignment: Alignment.bottomCenter, // 하단 정렬
+
               child: SizedBox(
-                width: 500, // 가로 크기
-                height: 30, // 세로 크기
+                width: 400,
+                height: 50,
+
                 child: ElevatedButton(
+
                   onPressed: () {
                     //email、title,content제대로 죈지확인
                     print('건의하기：이메일：$email，제목：$title，내용：$content');
@@ -128,6 +145,12 @@ class _WriteSuggestionState extends State<WriteSuggestion> {
                     });
                   },
                   child: Text('재출'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20), // 라디안 조절
+                    ),
+                    primary: Color(0xFF9BBDFF),
+                  ),
                 ),
               ),
             ),

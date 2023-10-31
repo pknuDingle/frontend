@@ -70,14 +70,25 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('홈페이지 선택'),
+        backgroundColor: Color(0xFF9BBDFF),
+        title: Text('홈페이지 선택',
+          style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.bold),
+        ),
+
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_arrow_left),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => Categoly()));//돌아가기
+          },
+        ),
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '정보를 받고싶은 페이지를 선택해주세요\n\n',
+              '정보를 받고싶은 \n페이지를 선택해주세요\n\n',
               style: TextStyle(
                 fontSize: 24, // 글 사이즈
                 fontWeight: FontWeight.bold, // 글꼴
@@ -109,14 +120,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                      isSelected ? Colors.blue : Colors.grey,
+                      isSelected ? Colors.blue : Colors.white,
                     ),
                   ),
-                  child: Text(university),
+                  child: Text(university,
+                      style: TextStyle(color: Colors.black)),
                 );
               }).toList(),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 16),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -127,10 +139,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold, // 글꼴
                   ),
                 ),
-                for (int i = 0; i < 3; i++)
-                  DropdownButton<String>(
+          for (int i = 0; i < 3; i++)
+            Container(
+                    width: 350,
+                    height: 50,
+                  child:DropdownButton<String>(
                     value: selectedMajors[i],
-                    hint: Text('제 ${i + 1} 순위'),
+                    hint:Text('제 ${i + 1} 순위'),
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedMajors[i] = newValue;
@@ -144,22 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     }).toList(),
                   ),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,// 중간 정렬
-                    children: <Widget>[
-                      Text(
-                        '\n\n\n\n',
-                        style: TextStyle(
-                          fontSize: 24, // 글 사이즈
-                          fontWeight: FontWeight.bold, // 글꼴
-                        ),
-                      ),
-                    ]),
+                ),
+                SizedBox(height: 100),
                 Align(
                   alignment: Alignment.bottomCenter, // 하단 정렬
                   child: SizedBox(
-                    width: 500, // 가로 크기
-                    height: 30, // 세로 크기
+                    width: 400, // 가로 크기
+                    height: 50, // 세로 크기
                     child: ElevatedButton(
                       onPressed: () {
                         showDialog(context: context,
@@ -174,6 +180,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       },
                       child: Text('확인'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20), // 라디안 조절
+                        ),
+                        primary: Color(0xFF9BBDFF),
+                      ),
                     ),
                   ),
                 ),

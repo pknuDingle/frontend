@@ -27,7 +27,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appBarTitle),
+        title: Text(_appBarTitle,
+        style: TextStyle( fontWeight: FontWeight.bold), // 굵게
+        ),
+        backgroundColor: Color(0xFF9BBDFF),
       ),
 
       bottomNavigationBar: BottomNavigationBar(

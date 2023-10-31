@@ -20,13 +20,14 @@ class _inCategoly extends State<Categoly> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(0xFF9BBDFF),
         title: Text(
           '카테고리 수정',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.bold),// 굵게
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.keyboard_arrow_left),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) => MyPage()));//돌아가기
           },
@@ -37,18 +38,20 @@ class _inCategoly extends State<Categoly> {
           child: Column(
             children: [
               ListTile(
-                leading: Icon(Icons.home),
-                title: Text('홈페이지 수정'),
-                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(Icons.house_outlined),
+                title: Text('홈페이지 수정',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   // 홈패이지로 이동
                   Navigator.push(context, MaterialPageRoute(builder: (_) => homePageSetting()));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.key),
-                title: Text('키워드 수정'),
-                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(Icons.vpn_key_outlined),
+                title: Text('키워드 수정',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   // 키워드로 이동
                   Navigator.push(context, MaterialPageRoute(builder: (_) => keyWardSetting()));

@@ -38,13 +38,14 @@ class _inMyPage extends State<MyPage> {
     String lesson = '컴퓨터공학과';
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(0xFF9BBDFF),
         title: Text(
           'MY PAGE',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white,
+              fontWeight: FontWeight.bold), // 굵게
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.keyboard_arrow_left),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));//돌아가기
           },
@@ -52,21 +53,37 @@ class _inMyPage extends State<MyPage> {
       ),
       body: SingleChildScrollView(
         child: GestureDetector(
-          onTap: _pickImage,
+
+
           child: Column(
             children: [
+              SizedBox(height: 16.0),
               Container(
-                color: Colors.lightBlue,
+                width: 400,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Color(0xFF9BBDFF),
+                  borderRadius: BorderRadius.circular(20),//박스라디안
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,//그림자 색갈
+                      blurRadius: 10,//그림자 라디안
+                      offset: Offset(0, 4),//그림자 offset
+                    ),
+                  ],
+                ),
+
                 child: Row(
                   children: [
+                  GestureDetector(
+                    onTap: _pickImage,//선택시 엘범 열기
                     // 원쪽 이미지
-                    Container(
+                   child: Container(
                       width: 150,
                       height: 150,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey, //이미지 없을때 unkown로 표시
-                        image: _image != null
+                        image: _image != null//이미지 없을때 unkown로 표시
                             ? DecorationImage(
                           image: FileImage(_image!),
                           fit: BoxFit.cover,
@@ -75,23 +92,37 @@ class _inMyPage extends State<MyPage> {
                       ),
                       child: _image == null
                           ? Icon(
-                        Icons.person,
-                        size: 80,
+                        Icons.face,
+                        size: 100,
                         color: Colors.white,
                       )
                           : null,
                     ),
+                  ),
                     SizedBox(width: 16.0), // 좌우 간격
-                    // 右侧信息
+                    // 오른쪽
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 25.0),
+                        Row(
+                          children: [
                         Text(
-                          name+'님',
+                          name,
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 30.0, // 크기
+                            fontWeight: FontWeight.bold, // 굵게
                             color: Colors.white,
                           ),
+                        ),
+                            Text(
+                              '님',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
                           email,
@@ -115,27 +146,30 @@ class _inMyPage extends State<MyPage> {
 
               SizedBox(height: 16),
               ListTile(
-                leading: Icon(Icons.edit),
-                title: Text('카테고리 수정'),
-                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(Icons.edit_outlined),
+                title: Text('카테고리 수정',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  // 导航到分类修改画面
+                  // 카테고리 이동
                   Navigator.push(context, MaterialPageRoute(builder: (_) => Categoly()));//돌아가기
                 },
               ),
               ListTile(
-                leading: Icon(Icons.feedback),
-                title: Text('건의하기'),
-                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(Icons.send_outlined),
+                title: Text('건의하기',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  // 导航到建议画面
+                  // 건의하기 이동
                   Navigator.push(context, MaterialPageRoute(builder: (_) => Suggestion()));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('탈퇴하기'),
-                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(Icons.sentiment_neutral),
+                title: Text('탈퇴하기',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   //
                 },
@@ -164,7 +198,7 @@ class _inMyPage extends State<MyPage> {
           if (index == 0) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));
           } else if (index == 1) {
-
+            //찝으로 이동
           }
         },
       ),

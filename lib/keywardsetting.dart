@@ -49,7 +49,18 @@ class _MyKeyWardState extends State<MyKeyWard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( //패이지 제목
-        title: Text('키워드 선택'),
+        backgroundColor: Color(0xFF9BBDFF),
+        title: Text('키워드 선택',
+        style: TextStyle(color: Colors.white,
+        fontWeight: FontWeight.bold),
+        ),
+
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_arrow_left),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => Categoly()));//돌아가기
+          },
+        ),
       ),
       body: Center(
         child: Column(
@@ -57,7 +68,7 @@ class _MyKeyWardState extends State<MyKeyWard> {
           crossAxisAlignment: CrossAxisAlignment.center,// 중간 정렬
           children: <Widget>[
             Text(
-              '정보를 받고싶은 키워드를 선택해주세요\n\n',
+              '정보를 받고싶은 \n키워드를 선택해주세요\n\n',
               style: TextStyle(
                 fontSize: 24, // 글 사이즈
                 fontWeight: FontWeight.bold, // 글꼴
@@ -84,10 +95,10 @@ class _MyKeyWardState extends State<MyKeyWard> {
                   style: ButtonStyle(
                     //버튼 색갈
                     backgroundColor: MaterialStateProperty.all(
-                      isSelected ? Colors.blue : Colors.grey,
+                      isSelected ? Colors.blue : Colors.white,
                     ),
                   ),
-                  child: Text(university),
+                  child: Text(university, style: TextStyle(color: Colors.black)),
                 );
               }).toList(),
             ),
@@ -121,30 +132,20 @@ class _MyKeyWardState extends State<MyKeyWard> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          isSelected ? Colors.blue : Colors.grey,
+                          isSelected ? Colors.blue : Colors.white,
                         ),
                       ),
-                      child: Text(university),
+                      child: Text(university, style: TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 20),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,// 중간 정렬
-                    children: <Widget>[
-                      Text(
-                        '\n\n\n\n\n\n\n\n',
-                        style: TextStyle(
-                          fontSize: 24, // 글 사이즈
-                          fontWeight: FontWeight.bold, // 글꼴
-                        ),
-                      ),
-                    ]),
+                SizedBox(height: 200),
+
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
-                    width: 500, // 가로 크기
-                    height: 30, // 세로 크기
+                    width: 400, // 가로 크기
+                    height: 50, // 세로 크기
                     child: ElevatedButton(
 
                       onPressed: () {
@@ -161,6 +162,12 @@ class _MyKeyWardState extends State<MyKeyWard> {
                         });
                       },
                       child: Text('확인'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20), // 라디안 조절
+                        ),
+                        primary: Color(0xFF9BBDFF),
+                      ),
                     ),
                   ),
                 ),
