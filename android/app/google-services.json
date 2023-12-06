@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "748817085306",
+    "project_id": "dingle-f726c",
+    "storage_bucket": "dingle-f726c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748817085306:android:67efa414c52d29ea2c9cc3",
+        "android_client_info": {
+          "package_name": "com.dingle_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyqEUdMhGoSUw-ywp65_53kOSNmLV5hpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

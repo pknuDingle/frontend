@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../main.dart';
-import '../suggestion.dart';
-import '../category.dart';
 
 
 class JJIMWidget extends StatefulWidget{
@@ -26,6 +24,7 @@ class _JJIMWidgetState extends State<JJIMWidget> {
           child: Text('메롱')
       ),
     );
+
 
   }
 

@@ -1,3 +1,4 @@
+import 'package:capstone_dingle/apis.dart';
 import 'package:capstone_dingle/home_page.dart';
 import 'package:capstone_dingle/list/keyword_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/services.dart';
 
+import 'model/member_model.dart';
+
 class PickKeywordPage extends StatefulWidget {
+  final Member member;
+
+  const PickKeywordPage({Key? key, required this.member}) : super(key: key);
+
   @override
   _PickKeywordPageState createState() => _PickKeywordPageState();
 }
@@ -146,11 +153,23 @@ class _PickKeywordPageState extends State<PickKeywordPage> {
                       ),
                       textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
                   ),
-                  onPressed: (){
-                    //print(user.toJson());
-                    List<String> Keywords = [...selectedkey1, ...selectedkey2];
-                    print('Keywords: $Keywords');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  onPressed: () async {
+                    List<String> keywords = [...selectedkey1, ...selectedkey2];
+                    print('Keywords: $keywords');
+                    print('또멤버는:${widget.member.jwt}');
+                    // 여기서 사용자의 JWT 토큰을 가져와서 API 호출
+                    await APIs.postKeyword(keywords, widget.member.jwt);
+                    List<Map<String, dynamic>>? userKeywords = await APIs.getUserKeywords(widget.member.jwt);
+                    if (userKeywords != null) {
+                      print('키워드는${userKeywords}');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage(member: widget.member, userKeywords: userKeywords,),
+                        ),
+                      );
+                    } else {
+                      // 에러 처리 또는 사용자에게 알리는 로직 추가
+                    }
                   },
                   child: Text('확인')),
             )

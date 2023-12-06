@@ -1,16 +1,20 @@
+import 'package:capstone_dingle/Widget/login_view.dart';
 import 'package:capstone_dingle/pickkeywordpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/services.dart';
-
+import 'Widget/kakao_login.dart';
 import 'list/department_list.dart';
 
 class PickHomePage extends StatefulWidget {
+  final dynamic member; // 사용자 정보를 받을 변수
+
+  const PickHomePage({Key? key, this.member}) : super(key: key);
+
   @override
   _PickHomePageState createState() => _PickHomePageState();
 }
-
 class _PickHomePageState extends State<PickHomePage> {
   List<String> whatUni = [
     '인문사회과학대', '자연과학대', '경영대', '공과대', '수산과학대', '환경해양대',
@@ -23,7 +27,7 @@ class _PickHomePageState extends State<PickHomePage> {
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
 
-
+  final viewModel = MainViewModel(KaKaoLogin());
 
   @override
   Widget build(BuildContext context) {
@@ -146,9 +150,18 @@ class _PickHomePageState extends State<PickHomePage> {
                   ),
                   textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
                 ),
-                  onPressed: (){
-                    //print(user.toJson());
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PickKeywordPage()));
+                  onPressed: () async {
+                      if(widget.member.jwt !=null){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PickKeywordPage(member: widget.member!), // user 정보 전달
+                          ),
+                        );
+
+                    } else {
+                      print("페이지 이동실패");
+                    }
                   },
                   child: Text('확인')),
             )

@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
+import '../Provider/member_provider.dart';
+import '../apis.dart';
+import '../model/member_model.dart';
 import '../pickhomepage.dart';
 
 class KaKaoLogin implements SocialLogin {
@@ -30,6 +33,12 @@ class KaKaoLogin implements SocialLogin {
         try {
           final oauthToken = await UserApi.instance.loginWithKakaoTalk();
           print("액세스 토큰: ${oauthToken.accessToken}"); // 액세스 토큰 출력
+          Member? member = await APIs.signInWithKakao(oauthToken.accessToken);
+          print('뭔데뭔데${member?.jwt ?? 'member 객체가 null입니다.'}');
+          if (member != null) {
+            await saveMemberInfo(member);
+            print('멤버는 내용이뭘까요${member.jwt}');
+          }
           return true;
         } catch (e) {
           print('카카오톡으로 로그인 실패 $e');
@@ -40,6 +49,12 @@ class KaKaoLogin implements SocialLogin {
           print('카카오계정으로 로그인 성공');
           final kakaoToken = await UserApi.instance.loginWithKakaoAccount();
           print("액세스 토큰: ${kakaoToken.accessToken}"); // 액세스 토큰 출력
+          Member? member = await APIs.signInWithKakao(kakaoToken.accessToken);
+          print('뭔데뭔데${member?.jwt ?? 'member 객체가 null입니다.'}');
+          if (member != null) {
+            await saveMemberInfo(member);
+            print('멤버는 내용이뭘까요${member}');
+          }
           return true;
         } catch (e) {
           print('카카오계정으로 로그인 실패 $e');
@@ -49,6 +64,25 @@ class KaKaoLogin implements SocialLogin {
     } catch (e) {
       print('카카오계정으로 로그인 실패 $e');
       return false;
+    }
+  }
+
+  @override
+  Future<String?> getAccessToken() async {
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+
+      if (isInstalled) {
+        final oauthToken = await UserApi.instance.loginWithKakaoTalk();
+        print('성공ㅎㅎ');
+        return oauthToken.accessToken;
+      } else {
+        final kakaoToken = await UserApi.instance.loginWithKakaoAccount();
+        return kakaoToken.accessToken;
+      }
+    } catch (e) {
+      print('엑세스 토큰을 가져오는 데 실패했습니다: $e');
+      return null;
     }
   }
 

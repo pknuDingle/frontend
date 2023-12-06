@@ -3,14 +3,16 @@ class Notice {
   String? title;
   String? content;
   String? image;
-  bool isFavorite;
+  String? link;
+  bool Favorite;
 
   Notice({
     this.noticeArticleId,
     this.title,
     this.content,
     this.image,
-    this.isFavorite = false,
+    this.link,
+    this.Favorite = false,
   });
 
   factory Notice.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class Notice {
       title: json['title'],
       content: json['content'],
       image: json['image'],
+      link: json['link'],
     );
   }
 
@@ -28,6 +31,7 @@ class Notice {
     data['title'] = this.title;
     data['content'] = this.content;
     data['image'] = this.image;
+    data['link'] = this.link;
     return data;
   }
 }

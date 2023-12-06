@@ -5,4 +5,7 @@ abstract class SocialLogin{
   Future<bool> oauthLogin();
   Future<bool> logout();
 
+  Future<String?> getAccessToken();
+
+
 }
