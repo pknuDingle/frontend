@@ -22,49 +22,89 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+
 class _LoginPageState extends State<LoginPage> {
   Member? member;
   var messageString = "";
+  late String _fcmToken = '';
 
-  void getMyDeviceToken() async{
-    final token = await FirebaseMessaging.instance.getToken();
-    print("내 디바이스토큰:$token");
+  Future<void> getMyDeviceToken() async {
+    final fcmtoken = await FirebaseMessaging.instance.getToken();
+    print("내 fcm토큰:$fcmtoken");
+    setState(() {
+      _fcmToken = fcmtoken ?? ""; // fcmToken 값을 가져와서 저장
+    });
   }
 
-  final viewModel = MainViewModel(KaKaoLogin());
+  late MainViewModel viewModel;
+
   void initState() {
+    super.initState();
     getMyDeviceToken();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message)async{
+    viewModel = MainViewModel(KaKaoLogin(), _fcmToken);
+    print("왜안될까요???");
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
 
-      if(notification != null){
-        FlutterLocalNotificationsPlugin().show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          const NotificationDetails(
-            android: AndroidNotificationDetails('high_importance_channel', 'high_importance_notification', importance: Importance.max),
-          ),
-        );
+      if (notification != null) {
+        showNotification(notification.title ?? '', notification.body ?? '');
         setState(() {
           messageString = message.notification!.body!;
           print("Foreground 메시지 수신: $messageString");
+          print('앱 내부 알림 도착${message.data}');
         });
-      }
+
+        // 포그라운드에서 메시지를 받으면 AlertDialog를 표시
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(notification.title ?? ''),
+              content: Text(
+                notification.body != null && notification.body!.length > 30
+                    ? '${notification.body!.substring(0, 30)}...'
+                    : notification.body ?? '',
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      }else{print('실패');}
     });
-    super.initState();
+
     getSavedMemberInfo().then((retrievedMember) {
       setState(() {
-        print("1");
-        member = retrievedMember;
-        _redirectToPage();
+        if (retrievedMember != null) {
+          _redirectToPage(retrievedMember);
+        }
       });
     });
   }
 
+  void showNotification(String title, String body) {
+    FlutterLocalNotificationsPlugin().show(
+      0,
+      title,
+      body.length > 30 ? '${body.substring(0, 30)}...' : body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'high_importance_channel',
+          'high_importance_notification',
+          importance: Importance.max,
+        ),
+      ),
+      payload: body,
+    );
+  }
 
-
-  void _redirectToPage() async {
+  void _redirectToPage(Member? member) async {
     if (member != null) {
       List<Map<String, dynamic>>? userKeywords = await APIs.getUserKeywords(member!.jwt);
 
@@ -85,8 +125,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
-
-
   @override
   Widget build(BuildContext context) {
     bool isUserLoggedIn = viewModel.isLogined;

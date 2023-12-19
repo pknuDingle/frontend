@@ -9,6 +9,7 @@ import '../model/member_model.dart';
 import '../pickhomepage.dart';
 
 class KaKaoLogin implements SocialLogin {
+  late String _fcmtoken;
   @override
   Future<bool> isLoggedIn() async {
     try {
@@ -33,7 +34,7 @@ class KaKaoLogin implements SocialLogin {
         try {
           final oauthToken = await UserApi.instance.loginWithKakaoTalk();
           print("액세스 토큰: ${oauthToken.accessToken}"); // 액세스 토큰 출력
-          Member? member = await APIs.signInWithKakao(oauthToken.accessToken);
+          Member? member = await APIs.signInWithKakao(oauthToken.accessToken, _fcmtoken);
           print('뭔데뭔데${member?.jwt ?? 'member 객체가 null입니다.'}');
           if (member != null) {
             await saveMemberInfo(member);
@@ -49,7 +50,7 @@ class KaKaoLogin implements SocialLogin {
           print('카카오계정으로 로그인 성공');
           final kakaoToken = await UserApi.instance.loginWithKakaoAccount();
           print("액세스 토큰: ${kakaoToken.accessToken}"); // 액세스 토큰 출력
-          Member? member = await APIs.signInWithKakao(kakaoToken.accessToken);
+          Member? member = await APIs.signInWithKakao(kakaoToken.accessToken, _fcmtoken);
           print('뭔데뭔데${member?.jwt ?? 'member 객체가 null입니다.'}');
           if (member != null) {
             await saveMemberInfo(member);

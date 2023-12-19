@@ -26,8 +26,13 @@ class _PickHomePageState extends State<PickHomePage> {
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
+  late String fcmtoken = '';
 
-  final viewModel = MainViewModel(KaKaoLogin());
+
+  void initState() {
+    super.initState();
+    final viewModel = MainViewModel(KaKaoLogin(), fcmtoken);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -11,6 +11,7 @@ import 'kakao_login.dart';
 class MyPageWidget extends StatefulWidget{
   final List<Map<String, dynamic>> userKeywords;
   final Member member;
+  late String fcmtoken = '';
 
   MyPageWidget({required this.userKeywords, required this.member});
 
@@ -21,7 +22,13 @@ class MyPageWidget extends StatefulWidget{
 
 class _MyPageWidgetState extends State<MyPageWidget> {
   @override
-  final viewModel = MainViewModel(KaKaoLogin());
+  late final viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = MainViewModel(KaKaoLogin(), widget.fcmtoken);
+  }
   Widget build(BuildContext context) {
     bool isUserLoggedIn = viewModel.isLogined;
 

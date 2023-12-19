@@ -8,7 +8,7 @@ import 'model/member_model.dart';
 class APIs {
 
   //카카오 로그인/회원가입
-  static Future<Member?> signInWithKakao(String accessToken) async {
+  static Future<Member?> signInWithKakao(String accessToken, String fcmToken) async {
     final url = Uri.parse('http://43.200.163.220:8080/kakao');
 
     try {
@@ -17,6 +17,7 @@ class APIs {
         headers: {
           'Content-Type': 'application/json',
           'AccessToken': '$accessToken',
+          'FCM-Token': '$fcmToken',
         },
       );
 

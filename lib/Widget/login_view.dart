@@ -6,8 +6,9 @@ class MainViewModel {
   bool isLogined = false;
   User? user;
   String? accessToken;
+  String? fcmToken;
 
-  MainViewModel(this._socialLogin);
+  MainViewModel(this._socialLogin, this.fcmToken);
 
   Future<bool> oauthLogin() async {
     bool loginSuccess = await _socialLogin.oauthLogin();
